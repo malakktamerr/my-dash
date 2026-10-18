@@ -153,6 +153,37 @@
   }
 }
 
+/* Custom Scrollbar for smooth overscroll feel */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Prevent body bouncing on mobile/iOS */
+html, body, #root {
+  min-height: 100vh;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 #spacer {
   height: 88px;
   border-top: 1px solid var(--border);
@@ -167,7 +198,7 @@
 
   &::before,
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     top: -4.5px;
     border: 5px solid transparent;

@@ -1,36 +1,46 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { translations } from './translations';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { translations } from "./translations";
 
 const LanguageContext = createContext(null);
 
 export function LanguageProvider({ children }) {
-  const [lang, setLang] = useState(() => localStorage.getItem('lang') || 'ar');
+  const [lang, setLang] = useState(() => localStorage.getItem("lang") || "ar");
 
-  const dir = lang === 'ar' ? 'rtl' : 'ltr';
+  const dir = lang === "ar" ? "rtl" : "ltr";
 
   useEffect(() => {
-    localStorage.setItem('lang', lang);
+    localStorage.setItem("lang", lang);
     document.documentElement.lang = lang;
     document.documentElement.dir = dir;
   }, [lang, dir]);
 
-  const t = useCallback((key, vars) => {
-    let text = translations[lang]?.[key] ?? translations.ar[key] ?? key;
-    if (vars) {
-      Object.entries(vars).forEach(([name, value]) => {
-        text = text.replace(`{${name}}`, value);
-      });
-    }
-    return text;
-  }, [lang]);
+  const t = useCallback(
+    (key, vars) => {
+      let text = translations[lang]?.[key] ?? translations.ar[key] ?? key;
+      if (vars) {
+        Object.entries(vars).forEach(([name, value]) => {
+          text = text.replace(`{${name}}`, value);
+        });
+      }
+      return text;
+    },
+    [lang],
+  );
 
   const toggleLanguage = useCallback(() => {
-    setLang((current) => (current === 'ar' ? 'en' : 'ar'));
+    setLang((current) => (current === "ar" ? "en" : "ar"));
   }, []);
 
   const value = useMemo(
     () => ({ lang, dir, t, toggleLanguage }),
-    [lang, dir, t, toggleLanguage]
+    [lang, dir, t, toggleLanguage],
   );
 
   return (
@@ -43,7 +53,7 @@ export function LanguageProvider({ children }) {
 export function useLanguage() {
   const context = useContext(LanguageContext);
   if (!context) {
-    throw new Error('useLanguage must be used within LanguageProvider');
+    throw new Error("useLanguage must be used within LanguageProvider");
   }
   return context;
 }
